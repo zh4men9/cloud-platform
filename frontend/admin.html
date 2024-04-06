@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - My Cloud Storage</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Console</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>System Status</h2>
+            <div id="system-status"></div>
+        </section>
+        <section>
+            <h2>Control System</h2>
+            <input type="text" id="control-input" placeholder="Enter command">
+            <button id="control-button">Execute</button>
+            <div id="control-result"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Cloud Storage</p>
+    </footer>
+    <script src="js/tcp_client.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - My Cloud Storage</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Cloud Storage</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Logout</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome, <span id="username"></span>!</h2>
+        <section>
+            <h3>Emails</h3>
+            <ul id="email-list"></ul>
+        </section>
+        <section>
+            <h3>Files</h3>
+            <ul id="file-list"></ul>
+            <input type="file" id="file-upload">
+            <button id="upload-button">Upload</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Cloud Storage</p>
+    </footer>
+    <script src="js/tcp_client.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>

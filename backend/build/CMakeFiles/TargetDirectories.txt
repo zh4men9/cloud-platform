@@ -1,0 +1,3 @@
+/home/zh4men9/Project/cloud-platform/backend/build/CMakeFiles/rebuild_cache.dir
+/home/zh4men9/Project/cloud-platform/backend/build/CMakeFiles/edit_cache.dir
+/home/zh4men9/Project/cloud-platform/backend/build/CMakeFiles/server.dir
