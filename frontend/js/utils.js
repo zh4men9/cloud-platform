@@ -1,15 +1,15 @@
-function parseResponse(responseStr) {
+export function parseResponse(responseStr) {
     const parts = responseStr.split(' ');
     const success = parts[0] === 'SUCCESS';
     const result = parts.slice(1).join(' ');
     return { success, result };
 }
 
-function serializeEmail(email) {
+export function serializeEmail(email) {
     return `${email.from},${email.subject},${email.body}`;
 }
 
-function deserializeEmail(emailStr) {
+export function deserializeEmail(emailStr) {
     const parts = emailStr.split(',');
     return {
         from: parts[0],
@@ -18,18 +18,10 @@ function deserializeEmail(emailStr) {
     };
 }
 
-function serializeFiles(files) {
+export function serializeFiles(files) {
     return JSON.stringify(files);
 }
 
-function deserializeFiles(filesStr) {
+export function deserializeFiles(filesStr) {
     return JSON.parse(filesStr);
 }
-
-export {
-    parseResponse,
-    serializeEmail,
-    deserializeEmail,
-    serializeFiles,
-    deserializeFiles
-};

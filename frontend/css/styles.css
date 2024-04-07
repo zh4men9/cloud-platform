@@ -1,36 +1,38 @@
-/* Global styles */
+/* Common styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
-header, footer {
+header {
     background-color: #333;
     color: #fff;
     padding: 1rem;
-    text-align: center;
 }
 
-nav ul {
-    list-style-type: none;
+header h1 {
     margin: 0;
-    padding: 0;
+}
+
+header nav {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
-nav li {
-    margin: 0 1rem;
-}
-
-nav a {
+header nav a {
     color: #fff;
     text-decoration: none;
+    margin-left: 1rem;
 }
 
 main {
-    padding: 2rem;
+    padding: 1rem;
 }
 
-/* Additional styles as needed */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
