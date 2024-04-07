@@ -53,19 +53,52 @@ backend/
 frontend/
 ├── index.html
 ├── login.html
+├── register.html
+├── change_password.html
 ├── home.html
 ├── admin.html
 ├── js/
 │   ├── login.js
+│   ├── register.js
+│   ├── change_password.js
 │   ├── home.js
+│   ├── inbox.js
+│   ├── compose.js
+│   ├── files.js
 │   ├── admin.js
 │   ├── tcp_client.js
 │   └── utils.js
 └── css/
     ├── styles.css
+    ├── home.css
     └── admin.css
 ```
 
+1. `index.html`: 应用程序的入口页面,可能会包含一个简单的欢迎信息和链接到登录、注册页面。
+
+2. `login.html`: 登录页面。
+3. `register.html`: 注册页面。
+4. `change_password.html`: 修改密码页面。
+
+5. `home.html`: 主页面,包含用户的邮箱、文件存储等功能。
+6. `admin.html`: 管理员页面。
+
+7. `js/` 目录:
+   - `login.js`, `register.js`, `change_password.js`: 处理登录、注册和修改密码的逻辑。
+   - `home.js`: 主页面的逻辑,包括邮箱和文件存储。
+   - `inbox.js`: 处理查看、发送和删除邮件的逻辑。
+   - `compose.js`: 处理撰写新邮件的逻辑。
+   - `files.js`: 处理文件上传、下载、删除以及文件夹管理的逻辑。
+   - `admin.js`: 管理员页面的逻辑。
+   - `tcp_client.js`: 与后端服务器进行通信的客户端代码。
+   - `utils.js`: 一些公共的工具函数。
+
+8. `css/` 目录:
+   - `styles.css`: 通用的样式表。
+   - `home.css`: 主页面的样式表。
+   - `admin.css`: 管理员页面的样式表。
+
+这个文件结构涵盖了项目需求中提到的所有功能,包括用户注册和密码修改、邮件服务、文件存储服务以及管理员控制台。您可以根据这个结构来组织您的前端代码。如果您还有任何其他问题,欢迎随时告诉我。
 通信机制:
 
 1. 前端 -> 后端:
