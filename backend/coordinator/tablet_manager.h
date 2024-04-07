@@ -1,22 +1,33 @@
 #ifndef TABLET_MANAGER_H
 #define TABLET_MANAGER_H
 
-#include "../common/types.h"
 #include <vector>
-#include <unordered_map>
-#include <mutex>
+#include <string>
+#include <memory>
+#include "file.h"
+
+class Tablet {
+public:
+    Tablet(int index) : index(index) {}
+    bool storeFile(const File& file);
+    File getFile(const std::string& name);
+    bool deleteFile(const std::string& name);
+
+private:
+    int index;
+    std::vector<File> files;
+};
 
 class TabletManager {
 public:
     TabletManager(size_t numTablets);
-    Value get(const Key& key);
-    void put(const Key& key, const Value& value);
-    void remove(const Key& key);
+    bool storeFile(const File& file);
+    File getFile(const std::string& name);
+    bool deleteFile(const std::string& name);
 
 private:
-    TabletID getTabletId(const Key& key);
     std::vector<std::unique_ptr<Tablet>> tablets;
-    std::vector<std::mutex> tabletLocks;
+    size_t getTabletIndex(const std::string& fileName);
 };
 
 #endif // TABLET_MANAGER_H

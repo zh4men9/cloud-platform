@@ -10,6 +10,10 @@
 string
 -
 
+../email/email.h
+string
+-
+
 ../storage_service/file.h
 string
 -
@@ -93,6 +97,8 @@ file.h
 /home/zh4men9/Project/cloud-platform/backend/common/file.h
 user.h
 /home/zh4men9/Project/cloud-platform/backend/common/user.h
+email.h
+/home/zh4men9/Project/cloud-platform/backend/common/email.h
 
 /home/zh4men9/Project/cloud-platform/backend/coordinator/coordinator.cpp
 coordinator.h
@@ -121,24 +127,20 @@ iostream
 /home/zh4men9/Project/cloud-platform/backend/coordinator/tablet_manager.cpp
 tablet_manager.h
 /home/zh4men9/Project/cloud-platform/backend/coordinator/tablet_manager.h
-../storage/tablet.h
-/home/zh4men9/Project/cloud-platform/backend/storage/tablet.h
-iostream
+cstdint
 -
 
 /home/zh4men9/Project/cloud-platform/backend/coordinator/tablet_manager.h
-../common/types.h
-/home/zh4men9/Project/cloud-platform/backend/common/types.h
 vector
 -
-unordered_map
+string
 -
-mutex
+memory
 -
+file.h
+/home/zh4men9/Project/cloud-platform/backend/coordinator/file.h
 
 /home/zh4men9/Project/cloud-platform/backend/email/email.cpp
-email.h
-/home/zh4men9/Project/cloud-platform/backend/email/email.h
 
 /home/zh4men9/Project/cloud-platform/backend/email/email.h
 string
@@ -171,10 +173,6 @@ memory
 /home/zh4men9/Project/cloud-platform/backend/email/smtp_server.cpp
 smtp_server.h
 /home/zh4men9/Project/cloud-platform/backend/email/smtp_server.h
-../network/tcp_client.h
-/home/zh4men9/Project/cloud-platform/backend/network/tcp_client.h
-../common/utils.h
-/home/zh4men9/Project/cloud-platform/backend/common/utils.h
 iostream
 -
 
@@ -183,11 +181,9 @@ iostream
 /home/zh4men9/Project/cloud-platform/backend/network/tcp_server.h
 ../network/tcp_client.h
 /home/zh4men9/Project/cloud-platform/backend/network/tcp_client.h
-../common/types.h
-/home/zh4men9/Project/cloud-platform/backend/common/types.h
 email.h
 /home/zh4men9/Project/cloud-platform/backend/email/email.h
-unordered_map
+string
 -
 memory
 -
@@ -256,12 +252,6 @@ storage_service/storage_server.h
 admin/admin_server.h
 /home/zh4men9/Project/cloud-platform/backend/admin/admin_server.h
 iostream
--
-
-/home/zh4men9/Project/cloud-platform/backend/storage/tablet.h
-../common/types.h
-/home/zh4men9/Project/cloud-platform/backend/common/types.h
-unordered_map
 -
 
 /home/zh4men9/Project/cloud-platform/backend/storage_service/file.cpp

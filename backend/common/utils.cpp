@@ -49,3 +49,9 @@ std::string Utils::serializeFile(const File& file) {
     ss << file.name << "\n" << file.data;
     return ss.str();
 }
+
+std::string Utils::serializeEmail(const Email& email) {
+    std::stringstream ss;
+    ss << email.from << "\n" << email.to << "\n" << email.subject << "\n" << email.body;
+    return ss.str();
+}

@@ -20,6 +20,7 @@ private:
     void storeFileInTablet(const File& file);
     File getFileFromTablet(const std::string& name);
     bool deleteFileFromTablet(const std::string& name);
+    void createTabletDirectories();
 
     TCPServer server;
     std::unique_ptr<TCPClient> coordinatorClient;

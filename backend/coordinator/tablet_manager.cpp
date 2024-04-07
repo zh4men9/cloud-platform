@@ -1,33 +1,57 @@
 #include "tablet_manager.h"
-#include "../storage/tablet.h"
-#include <iostream>
+#include <cstdint>
 
-TabletManager::TabletManager(size_t numTablets)
-    : tablets(numTablets), tabletLocks(numTablets) {
-    // Create the tablets and their corresponding locks
+bool Tablet::storeFile(const File& file) {
+    for (const auto& f : files) {
+        if (f.name == file.name) {
+            return false; // File with the same name already exists
+        }
+    }
+    files.push_back(file);
+    return true;
+}
+
+File Tablet::getFile(const std::string& name) {
+    for (const auto& file : files) {
+        if (file.name == name) {
+            return file;
+        }
+    }
+    return File(); // Return an empty file if not found
+}
+
+bool Tablet::deleteFile(const std::string& name) {
+    for (auto it = files.begin(); it != files.end(); ++it) {
+        if (it->name == name) {
+            files.erase(it);
+            return true;
+        }
+    }
+    return false; // File not found
+}
+
+TabletManager::TabletManager(size_t numTablets) {
     for (size_t i = 0; i < numTablets; i++) {
-        tablets[i] = std::make_unique<Tablet>(i);
+        tablets.emplace_back(std::make_unique<Tablet>(i));
     }
 }
 
-Value TabletManager::get(const Key& key) {
-    TabletID tabletId = getTabletId(key);
-    std::unique_lock<std::mutex> lock(tabletLocks[tabletId]);
-    return tablets[tabletId]->get(key);
+bool TabletManager::storeFile(const File& file) {
+    size_t tabletIndex = getTabletIndex(file.name);
+    return tablets[tabletIndex]->storeFile(file);
 }
 
-void TabletManager::put(const Key& key, const Value& value) {
-    TabletID tabletId = getTabletId(key);
-    std::unique_lock<std::mutex> lock(tabletLocks[tabletId]);
-    tablets[tabletId]->put(key, value);
+File TabletManager::getFile(const std::string& name) {
+    size_t tabletIndex = getTabletIndex(name);
+    return tablets[tabletIndex]->getFile(name);
 }
 
-void TabletManager::remove(const Key& key) {
-    TabletID tabletId = getTabletId(key);
-    std::unique_lock<std::mutex> lock(tabletLocks[tabletId]);
-    tablets[tabletId]->remove(key);
+bool TabletManager::deleteFile(const std::string& name) {
+    size_t tabletIndex = getTabletIndex(name);
+    return tablets[tabletIndex]->deleteFile(name);
 }
 
-TabletID TabletManager::getTabletId(const Key& key) {
-    return std::hash<std::string>{}(key) % tablets.size();
+size_t TabletManager::getTabletIndex(const std::string& fileName) {
+    // Implement a hash-based algorithm to determine the tablet index
+    return std::hash<std::string>()(fileName) % tablets.size();
 }

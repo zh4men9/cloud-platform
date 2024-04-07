@@ -9,8 +9,9 @@ struct User {
     std::string email;
 
     User() = default;
-    User(const std::string& username, const std::string& password, const std::string& email)
-        : username(username), password(password), email(email) {}
+    User(const std::string& username, const std::string& password, const std::string& email);
+    User(const User& other);
+    User& operator=(const User& other);
 };
 
 #endif // USER_H

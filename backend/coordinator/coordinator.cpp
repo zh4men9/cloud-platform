@@ -44,10 +44,11 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_GET_ACCOUNT_REQUEST";
         }
     } else if (request.method == "CREATE_ACCOUNT") {
-        if (request.args.size() == 2) {
+        if (request.args.size() == 3) {
             std::string username = request.args[0];
             std::string password = request.args[1];
-            if (accountServer->createUser(username, password)) {
+            std::string email = request.args[2];
+            if (accountServer->createUser(username, password, email)) {
                 response.result = "ACCOUNT_CREATED";
             } else {
                 response.success = false;
