@@ -2,10 +2,15 @@
 #include "../network/tcp_client.h"
 #include "../common/utils.h"
 #include <iostream>
+#include <fstream>
+#include <filesystem>
+
+const std::string USER_DATA_DIR = "./user_data/";
 
 AccountServer::AccountServer(int port, const std::string& coordinatorHost, int coordinatorPort)
     : server(port), coordinatorClient(new TCPClient(coordinatorHost, coordinatorPort)) {
     server.start();
+    loadUserData();
 }
 
 void AccountServer::run() {
@@ -17,7 +22,6 @@ void AccountServer::run() {
 }
 
 TCPResponse AccountServer::processRequest(const TCPRequest& request) {
-
     std::cout << "Received request: method=" << request.method << ", args=" << std::endl;
     for (const auto& arg : request.args) {
         std::cout << "  - " << arg << std::endl;
@@ -61,20 +65,54 @@ TCPResponse AccountServer::processRequest(const TCPRequest& request) {
 }
 
 User AccountServer::getUser(const std::string& username) {
-    auto it = users.find(username);
-    if (it != users.end()) {
-        return it->second;
+    std::string userDataFile = USER_DATA_DIR + username + ".txt";
+    std::ifstream file(userDataFile);
+    if (file.is_open()) {
+        std::string line;
+        std::getline(file, line);
+        file.close();
+        return Utils::deserializeUser(line);
     }
     return User();
 }
 
 bool AccountServer::createUser(const std::string& username, const std::string& password, const std::string& email) {
-    if (users.find(username) == users.end()) {
+    std::string userDataFile = USER_DATA_DIR + username + ".txt";
+    if (!std::filesystem::exists(userDataFile)) {
         User user(username, password, email);
-        storeUser(user);
-        return true;
+        std::ofstream file(userDataFile);
+        if (file.is_open()) {
+            file << Utils::serializeUser(user);
+            file.close();
+            return true;
+        }
     }
     return false;
+}
+
+void AccountServer::loadUserData() {
+    if (!std::filesystem::exists(USER_DATA_DIR)) {
+        std::filesystem::create_directory(USER_DATA_DIR);
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(USER_DATA_DIR)) {
+        if (entry.is_regular_file()) {
+            std::string filename = entry.path().filename().string();
+            std::string username = filename.substr(0, filename.length() - 4); // 去掉 ".txt" 后缀
+            std::string userDataFile = USER_DATA_DIR + filename;
+
+            std::ifstream file(userDataFile);
+            if (file.is_open()) {
+                std::string line;
+                std::getline(file, line);
+                file.close();
+                User user = Utils::deserializeUser(line);
+                storeUser(user);
+            } else {
+                std::cerr << "Failed to open user data file: " << userDataFile << std::endl;
+            }
+        }
+    }
 }
 
 void AccountServer::storeUser(const User& user) {

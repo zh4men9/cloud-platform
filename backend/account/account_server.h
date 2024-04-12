@@ -3,20 +3,21 @@
 
 #include "../network/tcp_server.h"
 #include "../network/tcp_client.h"
+#include "../common/types.h"
 #include "user.h"
 #include <unordered_map>
-#include <memory>
 
 class AccountServer {
 public:
     AccountServer(int port, const std::string& coordinatorHost, int coordinatorPort);
     void run();
+
+// private:
+    TCPResponse processRequest(const TCPRequest& request);
     User getUser(const std::string& username);
     bool createUser(const std::string& username, const std::string& password, const std::string& email);
-
-private:
-    TCPResponse processRequest(const TCPRequest& request);
     void storeUser(const User& user);
+    void loadUserData();
 
     TCPServer server;
     std::unique_ptr<TCPClient> coordinatorClient;

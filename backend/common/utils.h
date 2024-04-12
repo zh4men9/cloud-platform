@@ -16,6 +16,7 @@ public:
     static std::string serializeUser(const User& user);
     static std::string serializeFile(const File& file);
     static std::string serializeEmail(const Email& email);
+    static User deserializeUser(const std::string& str);
 };
 
 #endif // UTILS_H

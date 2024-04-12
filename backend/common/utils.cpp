@@ -55,3 +55,15 @@ std::string Utils::serializeEmail(const Email& email) {
     ss << email.from << "\n" << email.to << "\n" << email.subject << "\n" << email.body;
     return ss.str();
 }
+
+User Utils::deserializeUser(const std::string& str) {
+    std::vector<std::string> parts = Utils::splitString(str, '\n');
+    if (parts.size() != 3) {
+        return User();
+    }
+
+    std::string username = parts[0];
+    std::string password = parts[1];
+    std::string email = parts[2];
+    return User(username, password, email);
+}
