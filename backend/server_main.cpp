@@ -5,6 +5,7 @@
 #include "storage_service/storage_server.h"
 #include "admin/admin_server.h"
 #include <iostream>
+#include <thread>
 
 int main() {
     try {
@@ -23,7 +24,10 @@ int main() {
 
         // Create and start the Coordinator
         Coordinator coordinator(coordinatorPort, storageHost, storagePort, accountHost, accountPort, emailHost, emailPort, storageServiceHost, storageServicePort, adminHost, adminPort);
-        coordinator.run();
+        // coordinator.run();
+        std::thread coordinatorThread(&Coordinator::run, &coordinator);
+        coordinatorThread.detach();
+        
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
