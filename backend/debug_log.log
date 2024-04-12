@@ -102,3 +102,292 @@ End serializeResponse
 End sendResponse
 Worker thread 139830964950784 waiting for request...
 Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 31 bytes from socket
+End to read from socket. Total bytes read: 31
+Read this content: method:GET_FILE|||test_file.txt
+In parseRequest
+lines.size():2
+method:GET_FILE
+test_file.txt
+End parseRequest
+Worker thread 139830964950784 received request: method=GET_FILE, args=
+  - test_file.txt
+In Coordinator::processRequest
+Received request: method=GET_FILE, args=
+  - test_file.txt
+In GET_FILE
+Worker thread 139830964950784 sending response: success=1, result=
+
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+
+
+End serializeResponse
+End sendResponse
+Worker thread 139830964950784 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 66 bytes from socket
+End to read from socket. Total bytes read: 66
+Read this content: method:CREATE_ACCOUNT|||testuser|||testpassword|||test@example.com
+In parseRequest
+lines.size():4
+method:CREATE_ACCOUNT
+testuser
+testpassword
+test@example.com
+End parseRequest
+Worker thread 139830964950784 received request: method=CREATE_ACCOUNT, args=
+  - testuser
+  - testpassword
+  - test@example.com
+In Coordinator::processRequest
+Received request: method=CREATE_ACCOUNT, args=
+  - testuser
+  - testpassword
+  - test@example.com
+In CREATE_ACCOUNT
+Worker thread 139830964950784 sending response: success=0, result=FAILED_TO_CREATE_ACCOUNT
+In sendResponse
+In serializeResponse
+response.success: 0
+ss.str() 0
+FAILED_TO_CREATE_ACCOUNT
+End serializeResponse
+End sendResponse
+Worker thread 139830964950784 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 29 bytes from socket
+End to read from socket. Total bytes read: 29
+Read this content: method:GET_ACCOUNT|||testuser
+In parseRequest
+lines.size():2
+method:GET_ACCOUNT
+testuser
+End parseRequest
+Worker thread 139830973343488 received request: method=GET_ACCOUNT, args=
+  - testuser
+In Coordinator::processRequest
+Received request: method=GET_ACCOUNT, args=
+  - testuser
+In GET_ACCOUNT
+Open file ./user_data/testuser.txt
+Read data:
+testuser
+testpassword
+test@example.com
+
+Worker thread 139830973343488 sending response: success=1, result=testuser
+testpassword
+test@example.com
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+testuser
+testpassword
+test@example.com
+End serializeResponse
+End sendResponse
+Worker thread 139830973343488 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 68 bytes from socket
+End to read from socket. Total bytes read: 68
+Read this content: method:STORE_FILE|||test_file.txt|||This is the content of the file.
+In parseRequest
+lines.size():3
+method:STORE_FILE
+test_file.txt
+This is the content of the file.
+End parseRequest
+Worker thread 139830956558080 received request: method=STORE_FILE, args=
+  - test_file.txt
+  - This is the content of the file.
+In Coordinator::processRequest
+Received request: method=STORE_FILE, args=
+  - test_file.txt
+  - This is the content of the file.
+In STORE_FILE
+Stored file 'test_file.txt' in tablet 2
+Worker thread 139830956558080 sending response: success=1, result=FILE_STORED
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+FILE_STORED
+End serializeResponse
+End sendResponse
+Worker thread 139830956558080 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 31 bytes from socket
+End to read from socket. Total bytes read: 31
+Read this content: method:GET_FILE|||test_file.txt
+In parseRequest
+lines.size():2
+method:GET_FILE
+test_file.txt
+End parseRequest
+Worker thread 139830948165376 received request: method=GET_FILE, args=
+  - test_file.txt
+In Coordinator::processRequest
+Received request: method=GET_FILE, args=
+  - test_file.txt
+In GET_FILE
+Worker thread 139830948165376 sending response: success=1, result=test_file.txt
+This is the content of the file.
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+test_file.txt
+This is the content of the file.
+End serializeResponse
+End sendResponse
+Worker thread 139830948165376 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 34 bytes from socket
+End to read from socket. Total bytes read: 34
+Read this content: method:DELETE_FILE|||test_file.txt
+In parseRequest
+lines.size():2
+method:DELETE_FILE
+test_file.txt
+End parseRequest
+Worker thread 139830964950784 received request: method=DELETE_FILE, args=
+  - test_file.txt
+In Coordinator::processRequest
+Received request: method=DELETE_FILE, args=
+  - test_file.txt
+In DELETE_FILE
+Deleted file 'test_file.txt' from tablet 2
+Worker thread 139830964950784 sending response: success=1, result=FILE_DELETED
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+FILE_DELETED
+End serializeResponse
+End sendResponse
+Worker thread 139830964950784 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 24 bytes from socket
+End to read from socket. Total bytes read: 24
+Read this content: method:GET_SYSTEM_STATUS
+In parseRequest
+lines.size():1
+method:GET_SYSTEM_STATUS
+End parseRequest
+Worker thread 139830973343488 received request: method=GET_SYSTEM_STATUS, args=
+In Coordinator::processRequest
+Received request: method=GET_SYSTEM_STATUS, args=
+In GET_SYSTEM_STATUS
+Worker thread 139830973343488 sending response: success=1, result=System Status:
+Coordinator: OK
+Account Server: OK
+Email Server: OK
+Storage Server: OK
+
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+System Status:
+Coordinator: OK
+Account Server: OK
+Email Server: OK
+Storage Server: OK
+
+End serializeResponse
+End sendResponse
+Worker thread 139830973343488 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 31 bytes from socket
+End to read from socket. Total bytes read: 31
+Read this content: method:CONTROL_SYSTEM|||restart
+In parseRequest
+lines.size():2
+method:CONTROL_SYSTEM
+restart
+End parseRequest
+Worker thread 139830956558080 received request: method=CONTROL_SYSTEM, args=
+  - restart
+In Coordinator::processRequest
+Received request: method=CONTROL_SYSTEM, args=
+  - restart
+In CONTROL_SYSTEM
+Worker thread 139830956558080 sending response: success=1, result=SYSTEM_CONTROLLED
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+SYSTEM_CONTROLLED
+End serializeResponse
+End sendResponse
+Worker thread 139830956558080 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 94 bytes from socket
+End to read from socket. Total bytes read: 94
+Read this content: method:SEND_EMAIL|||from@example.com|||to@example.com|||Test Subject|||This is the email body.
+In parseRequest
+lines.size():5
+method:SEND_EMAIL
+from@example.com
+to@example.com
+Test Subject
+This is the email body.
+End parseRequest
+Worker thread 139830948165376 received request: method=SEND_EMAIL, args=
+  - from@example.com
+  - to@example.com
+  - Test Subject
+  - This is the email body.
+In Coordinator::processRequest
+Received request: method=SEND_EMAIL, args=
+  - from@example.com
+  - to@example.com
+  - Test Subject
+  - This is the email body.
+In SEND_EMAIL
+Sending email:
+From: from@example.com
+To: to@example.com
+Subject: Test Subject
+Body: This is the email body.
+Worker thread 139830948165376 sending response: success=1, result=EMAIL_SENT
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+EMAIL_SENT
+End serializeResponse
+End sendResponse
+Worker thread 139830948165376 waiting for request...
+Waiting for client connection...

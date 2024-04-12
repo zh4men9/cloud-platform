@@ -20,16 +20,16 @@ send_request(request_str)
 request_str = "method:GET_ACCOUNT|||testuser"
 send_request(request_str)
 
-# Test GET_FILE
-request_str = "method:GET_FILE|||test_file.txt"
+# Test STORE_FILE
+request_str = "method:STORE_FILE|||/home/zh4men9/Project/cloud-platform/backend/debug_log.log|||This is the content of the file."
 send_request(request_str)
 
-# Test STORE_FILE
-request_str = "method:STORE_FILE|||test_file.txt|||This is the content of the file."
+# Test GET_FILE
+request_str = "method:GET_FILE|||/home/zh4men9/Project/cloud-platform/backend/debug_log.log"
 send_request(request_str)
 
 # Test DELETE_FILE
-request_str = "method:DELETE_FILE|||test_file.txt"
+request_str = "method:DELETE_FILE|||/home/zh4men9/Project/cloud-platform/backend/debug_log.log"
 send_request(request_str)
 
 # Test GET_SYSTEM_STATUS
