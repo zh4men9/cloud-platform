@@ -23,7 +23,7 @@ TCPServer::~TCPServer() {
 void TCPServer::start() {
     int optval = 1;
     setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
-    
+
     // Create the server socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0) {
@@ -40,8 +40,10 @@ void TCPServer::start() {
     serverAddr.sin_port = htons(port);
 
     if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
-        throw std::runtime_error("Failed to bind server socket");
-    }
+        int errorCode = errno;
+        std::cerr << "Failed to bind server socket, error code: " << errorCode << std::endl;
+        throw std::system_error(errorCode, std::system_category(), "Failed to bind server socket");
+}
 
     std::cout << "Bind server socket success in port " << port << " success!" << std::endl;
 
@@ -113,15 +115,14 @@ std::string TCPServer::readFromSocket(int socket) {
     ssize_t bytesRead;
     size_t totalBytesRead = 0;
 
-    int read_cnt = 3;
-
-    while (read_cnt) {
+    while (true) {
         std::cout << "Calling read(), waiting for data..." << std::endl;
         bytesRead = read(socket, buffer, sizeof(buffer));
         std::cout << "Read " << bytesRead << " bytes from socket" << std::endl;
         if (bytesRead > 0) {
             ss.write(buffer, bytesRead);
             totalBytesRead += bytesRead;
+            break;
         } else if (bytesRead == 0) {
             std::cout << "Client closed the connection" << std::endl;
             break; // 客户端关闭了连接

@@ -1,0 +1,34 @@
+Create server socket success!
+Bind server socket success in port 8002 success!
+Start a server!
+Create server socket success!
+Bind server socket success in port 8003 success!
+Start a server!
+Create server socket success!
+Bind server socket success in port 8004 success!
+Start a server!
+Created tablet directory: "tablet_0"
+Created tablet directory: "tablet_1"
+Created tablet directory: "tablet_2"
+Created tablet directory: "tablet_3"
+Created tablet directory: "tablet_4"
+Created tablet directory: "tablet_5"
+Created tablet directory: "tablet_6"
+Created tablet directory: "tablet_7"
+Created tablet directory: "tablet_8"
+Created tablet directory: "tablet_9"
+Create server socket success!
+Bind server socket success in port 8005 success!
+Start a server!
+Create server socket success!
+Bind server socket success in port 8000 success!
+Start a server!
+Coordinator started, listening on port 8000
+Worker thread 139863141885696 waiting for request...
+Waiting for client connection...
+Worker thread 139863133492992 waiting for request...
+Waiting for client connection...
+Worker thread 139863125100288 waiting for request...
+Waiting for client connection...
+Worker thread 139863116707584 waiting for request...
+Waiting for client connection...

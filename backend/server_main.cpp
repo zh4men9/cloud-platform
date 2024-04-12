@@ -12,14 +12,22 @@
 #include <ctime>
 
 int main() {
-    // 获取当前时间戳
-    auto now = std::chrono::system_clock::now();
-    std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-    std::string logFileName = "log_" + std::to_string(now_c) + ".txt";
+    // 是否为 DEBUG 模式
+    bool DEBUG = true;
+
+    // 获取日志文件路径
+    std::string logFileName;
+    if (DEBUG) {
+        logFileName = "/home/zh4men9/Project/cloud-platform/backend/debug_log.log";
+    } else {
+        // 获取当前时间戳
+        auto now = std::chrono::system_clock::now();
+        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+        logFileName = "log_" + std::to_string(now_c) + ".txt";
+    }
 
     // 创建日志文件
-    std::filesystem::path logFilePath = std::filesystem::current_path() / logFileName;
-    std::ofstream logFile(logFilePath, std::ios::out | std::ios::trunc);
+    std::ofstream logFile(logFileName, std::ios::out | std::ios::trunc);
 
     // 重定向 std::cout 到日志文件
     std::streambuf* originalBuffer = std::cout.rdbuf(logFile.rdbuf());
