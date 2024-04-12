@@ -67,12 +67,23 @@ TCPResponse AccountServer::processRequest(const TCPRequest& request) {
 User AccountServer::getUser(const std::string& username) {
     std::string userDataFile = USER_DATA_DIR + username + ".txt";
     std::ifstream file(userDataFile);
+
+    std::cout << "Open file " << userDataFile << std::endl;
+
     if (file.is_open()) {
+        std::string data;
         std::string line;
-        std::getline(file, line);
+        while (std::getline(file, line)) {
+            data += line + "\n";
+        }
         file.close();
-        return Utils::deserializeUser(line);
+
+        std::cout << "Read data:\n" << data << std::endl;
+        return Utils::deserializeUser(data);
+    } else {
+        std::cout << "Read file failed" << std::endl;
     }
+
     return User();
 }
 

@@ -24,16 +24,13 @@ Create server socket success!
 Bind server socket success in port 8000 success!
 Start a server!
 Coordinator started, listening on port 8000
-Worker thread Worker thread 140356400961280140356409353984 waiting for request...
-Worker thread Waiting for client connection...
-140356392568576 waiting for request.Waiting for client connection...
-connection...
+Worker thread 139830973343488 waiting for request...
 Waiting for client connection...
-connection...
-140356392568576 waiting for request...
+Worker thread 139830964950784 waiting for request...
 Waiting for client connection...
+Worker thread 139830956558080 waiting for request...
 Waiting for client connection...
-Worker thread 140356384175872 waiting for request...
+Worker thread 139830948165376 waiting for request...
 Waiting for client connection...
 Client connection accepted
 Start to read from socket.
@@ -48,7 +45,7 @@ testuser
 testpassword
 test@example.com
 End parseRequest
-Worker thread 140356409353984 received request: method=CREATE_ACCOUNT, args=
+Worker thread 139830973343488 received request: method=CREATE_ACCOUNT, args=
   - testuser
   - testpassword
   - test@example.com
@@ -58,7 +55,7 @@ Received request: method=CREATE_ACCOUNT, args=
   - testpassword
   - test@example.com
 In CREATE_ACCOUNT
-Worker thread 140356409353984 sending response: success=1, result=ACCOUNT_CREATED
+Worker thread 139830973343488 sending response: success=1, result=ACCOUNT_CREATED
 In sendResponse
 In serializeResponse
 response.success: 1
@@ -66,5 +63,42 @@ ss.str() 1
 ACCOUNT_CREATED
 End serializeResponse
 End sendResponse
-Worker thread 140356409353984 waiting for request...
+Worker thread 139830973343488 waiting for request...
+Waiting for client connection...
+Client connection accepted
+Start to read from socket.
+Calling read(), waiting for data...
+Read 29 bytes from socket
+End to read from socket. Total bytes read: 29
+Read this content: method:GET_ACCOUNT|||testuser
+In parseRequest
+lines.size():2
+method:GET_ACCOUNT
+testuser
+End parseRequest
+Worker thread 139830964950784 received request: method=GET_ACCOUNT, args=
+  - testuser
+In Coordinator::processRequest
+Received request: method=GET_ACCOUNT, args=
+  - testuser
+In GET_ACCOUNT
+Open file ./user_data/testuser.txt
+Read data:
+testuser
+testpassword
+test@example.com
+
+Worker thread 139830964950784 sending response: success=1, result=testuser
+testpassword
+test@example.com
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+testuser
+testpassword
+test@example.com
+End serializeResponse
+End sendResponse
+Worker thread 139830964950784 waiting for request...
 Waiting for client connection...
