@@ -43,7 +43,7 @@ void TCPServer::start() {
         int errorCode = errno;
         std::cerr << "Failed to bind server socket, error code: " << errorCode << std::endl;
         throw std::system_error(errorCode, std::system_category(), "Failed to bind server socket");
-}
+    }
 
     std::cout << "Bind server socket success in port " << port << " success!" << std::endl;
 
@@ -77,34 +77,26 @@ TCPRequest TCPServer::acceptAndRead() {
     
     // Read the request from the client
     std::string requestStr = readFromSocket(clientSocket);
-    close(clientSocket);
 
     // Parse the request
-    return parseRequest(requestStr);
+    TCPRequest request = parseRequest(requestStr);
+
+    // Save the client socket for later use
+    request.clientSocket = clientSocket;
+
+    return request;
 }
 
 void TCPServer::sendResponse(const TCPResponse& response) {
-    // Create the client socket
-    int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (clientSocket < 0) {
-        throw std::runtime_error("Failed to create client socket");
-    }
-
-    // Connect to the client
-    struct sockaddr_in clientAddr;
-    memset(&clientAddr, 0, sizeof(clientAddr));
-    clientAddr.sin_family = AF_INET;
-    clientAddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    clientAddr.sin_port = htons(0);
-
-    if (connect(clientSocket, (struct sockaddr*)&clientAddr, sizeof(clientAddr)) < 0) {
-        throw std::runtime_error("Failed to connect to client");
-    }
+    std::cout << "In sendResponse" << std::endl;
 
     // Send the response
+    int clientSocket = response.clientSocket;
     std::string responseStr = serializeResponse(response);
     writeToSocket(clientSocket, responseStr);
     close(clientSocket);
+
+    std::cout << "End sendResponse" << std::endl;
 }
 
 std::string TCPServer::readFromSocket(int socket) {
@@ -161,21 +153,34 @@ TCPRequest parseRequest(const std::string& requestStr) {
     std::cout << "In parseRequest" << std::endl;
     
     TCPRequest request;
+    std::vector<std::string> lines;
     std::istringstream iss(requestStr);
     std::string line;
+    const std::string delim = "|||";
 
-    while (std::getline(iss, line)) {
+    // 将请求字符串分割为多行
+    while (std::getline(iss, line, delim[0])) {
         if (!line.empty()) {
-            size_t pos = line.find_first_of(':');
-            if (pos != std::string::npos) {
-                std::string key = line.substr(0, pos);
-                std::string value = line.substr(pos + 1);
-                if (key == "method") {
-                    request.method = value;
-                } else {
-                    request.args.emplace_back(value);
-                }
+            lines.push_back(line);
+        }
+    }
+
+    std::cout << "lines.size():" << lines.size() << std::endl;
+
+    // 逐行处理
+    for (const auto& l : lines) {
+        std::cout << l << std::endl;
+        size_t pos = l.find_first_of(':');
+        if (pos != std::string::npos) {
+            std::string key = l.substr(0, pos);
+            std::string value = l.substr(pos + 1);
+            if (key == "method") {
+                request.method = value;
+            } else {
+                request.args.push_back(value);
             }
+        } else{
+            request.args.push_back(l);
         }
     }
 
@@ -185,8 +190,15 @@ TCPRequest parseRequest(const std::string& requestStr) {
 }
 
 std::string serializeResponse(const TCPResponse& response) {
+    std::cout << "In serializeResponse" << std::endl;
+    std::cout << "response.success: " << response.success << std::endl;
+
     std::stringstream ss;
-    ss << (response.success ? "SUCCESS" : "FAILURE") << "\n";
+    ss << (response.success ? 1 : 0) << "\n";
     ss << response.result;
+
+    std::cout << "ss.str() " << ss.str() << std::endl;
+
+    std::cout << "End serializeResponse" << std::endl;
     return ss.str();
 }

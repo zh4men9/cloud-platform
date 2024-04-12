@@ -58,6 +58,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
 
     TCPResponse response;
     response.success = true;
+    response.clientSocket = request.clientSocket;
 
     if (request.method == "GET_ACCOUNT") {
         std::cout << "In GET_ACCOUNT" << std::endl;

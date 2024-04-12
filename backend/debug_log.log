@@ -24,32 +24,44 @@ Create server socket success!
 Bind server socket success in port 8000 success!
 Start a server!
 Coordinator started, listening on port 8000
-Worker thread 139623470372608 waiting for request...
+Worker thread 140153026881280 waiting for request...
 Waiting for client connection...
-Worker thread 139623461979904 waiting for request...
+Worker thread 140153018488576 waiting for request...
 Waiting for client connection...
-Worker thread 139623453587200 waiting for request...
+Worker thread 140153010095872 waiting for request...
 Waiting for client connection...
-Worker thread 139623445194496 waiting for request...
+Worker thread 140153001703168 waiting for request...
 Waiting for client connection...
 Client connection accepted
 Start to read from socket.
 Calling read(), waiting for data...
-Read 58 bytes from socket
-End to read from socket. Total bytes read: 58
-Read this content: method:GET_ACCOUNT
-username:testuser
-password:testpassword
+Read 66 bytes from socket
+End to read from socket. Total bytes read: 66
+Read this content: method:CREATE_ACCOUNT|||testuser|||testpassword|||test@example.com
 In parseRequest
+lines.size():4
+method:CREATE_ACCOUNT
+testuser
+testpassword
+test@example.com
 End parseRequest
-Worker thread 139623470372608 received request: method=GET_ACCOUNT, args=
+Worker thread 140153026881280 received request: method=CREATE_ACCOUNT, args=
   - testuser
   - testpassword
+  - test@example.com
 In Coordinator::processRequest
-Received request: method=GET_ACCOUNT, args=
+Received request: method=CREATE_ACCOUNT, args=
   - testuser
   - testpassword
-In GET_ACCOUNT
-Worker thread 139623470372608 sending response: success=0, result=INVALID_GET_ACCOUNT_REQUEST
-Worker thread 139623470372608 waiting for request...
+  - test@example.com
+In CREATE_ACCOUNT
+Worker thread 140153026881280 sending response: success=1, result=ACCOUNT_CREATED
+In sendResponse
+In serializeResponse
+response.success: 1
+ss.str() 1
+ACCOUNT_CREATED
+End serializeResponse
+End sendResponse
+Worker thread 140153026881280 waiting for request...
 Waiting for client connection...

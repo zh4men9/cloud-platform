@@ -12,28 +12,24 @@ def send_request(request_str):
         response = response_data.decode()
         print("Response:", response)
 
-# Test GET_ACCOUNT
-request_str = "method:GET_ACCOUNT\ntestuser"
-send_request(request_str)
-
 # Test CREATE_ACCOUNT
-request_str = "method:CREATE_ACCOUNT\ntestuser\ntestpassword\ntest@example.com"
+request_str = "method:CREATE_ACCOUNT|||testuser|||testpassword|||test@example.com"
 send_request(request_str)
 
-# Test SEND_EMAIL
-request_str = "method:SEND_EMAIL\nfrom@example.com\nto@example.com\nTest Subject\nThis is the email body."
+# Test GET_ACCOUNT
+request_str = "method:GET_ACCOUNT|||testuser"
 send_request(request_str)
 
 # Test GET_FILE
-request_str = "method:GET_FILE\ntest_file.txt"
+request_str = "method:GET_FILE|||test_file.txt"
 send_request(request_str)
 
 # Test STORE_FILE
-request_str = "method:STORE_FILE\ntest_file.txt\nThis is the content of the file."
+request_str = "method:STORE_FILE|||test_file.txt|||This is the content of the file."
 send_request(request_str)
 
 # Test DELETE_FILE
-request_str = "method:DELETE_FILE\ntest_file.txt"
+request_str = "method:DELETE_FILE|||test_file.txt"
 send_request(request_str)
 
 # Test GET_SYSTEM_STATUS
@@ -41,5 +37,9 @@ request_str = "method:GET_SYSTEM_STATUS"
 send_request(request_str)
 
 # Test CONTROL_SYSTEM
-request_str = "method:CONTROL_SYSTEM\nrestart"
+request_str = "method:CONTROL_SYSTEM|||restart"
+send_request(request_str)
+
+# Test SEND_EMAIL
+request_str = "method:SEND_EMAIL|||from@example.com|||to@example.com|||Test Subject|||This is the email body."
 send_request(request_str)

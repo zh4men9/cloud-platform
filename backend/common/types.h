@@ -16,11 +16,13 @@ using NodeID = size_t;
 struct TCPRequest {
     std::string method;
     std::vector<std::string> args;
+    int clientSocket; // 新增客户端套接字引用
 };
 
 struct TCPResponse {
     bool success;
     std::string result;
+    int clientSocket; // 新增客户端套接字引用
 };
 
 #endif // TYPES_H
