@@ -17,8 +17,12 @@ Coordinator::Coordinator(int port, const std::string& storageHost, int storagePo
     server.start();
 }
 
-void Coordinator::run() {
-    while (true) {
+void Coordinator::run()
+{
+    while (true)
+    {
+        std::cout << "Coordinator listening on port " << std::endl;
+
         // Accept client connection and read the request
         TCPRequest request = server.acceptAndRead();
 
