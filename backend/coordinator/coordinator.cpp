@@ -25,12 +25,13 @@ void Coordinator::run()
 
         // Accept client connection and read the request
         TCPRequest request = server.acceptAndRead();
-
+        std::cout << "TCPRequest request = server.acceptAndRead();" << std::endl;
         // Process the request
         TCPResponse response = processRequest(request);
-
+        std::cout << "TCPResponse response = processRequest(request);" << std::endl;
         // Send the response
         server.sendResponse(response);
+        std::cout << "server.sendResponse(response);" << std::endl;
     }
 }
 
