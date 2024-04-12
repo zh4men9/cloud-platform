@@ -21,21 +21,37 @@ void Coordinator::run()
 {
     while (true)
     {
-        std::cout << "Coordinator listening on port " << std::endl;
+        try {
+            std::cout << "Start in run()" << std::endl;
 
-        // Accept client connection and read the request
-        TCPRequest request = server.acceptAndRead();
-        std::cout << "TCPRequest request = server.acceptAndRead();" << std::endl;
-        // Process the request
-        TCPResponse response = processRequest(request);
-        std::cout << "TCPResponse response = processRequest(request);" << std::endl;
-        // Send the response
-        server.sendResponse(response);
-        std::cout << "server.sendResponse(response);" << std::endl;
+            // Accept client connection and read the request
+            TCPRequest request = server.acceptAndRead();
+            std::cout << "acceptAndRead success!" << std::endl;
+            
+            std::cout << "The request: " << request.method << std::endl;
+
+            // Process the request
+            TCPResponse response = processRequest(request);
+            std::cout << "processRequest success!" << std::endl;
+            std::cout << "The response: " << response.result << std::endl;
+            
+            // Send the response
+            server.sendResponse(response);
+            std::cout << "sendResponse success!" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "Error in Coordinator::run(): " << e.what() << std::endl;
+        }
     }
 }
 
 TCPResponse Coordinator::processRequest(const TCPRequest& request) {
+
+    std::cout << "In Coordinator::processRequest" << std::endl;
+    std::cout << "Received request: method=" << request.method << ", args=" << std::endl;
+    for (const auto& arg : request.args) {
+        std::cout << "  - " << arg << std::endl;
+    }
+
     TCPResponse response;
     response.success = true;
 

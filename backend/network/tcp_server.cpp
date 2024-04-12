@@ -19,6 +19,8 @@ void TCPServer::start() {
         throw std::runtime_error("Failed to create server socket");
     }
 
+    std::cout << "Create server socket success!" << std::endl;
+
     // Bind the socket to the specified port
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
@@ -30,10 +32,14 @@ void TCPServer::start() {
         throw std::runtime_error("Failed to bind server socket");
     }
 
+    std::cout << "Bind server socket success in port " << port << " success!" << std::endl;
+
     // Start listening for incoming connections
     if (listen(serverSocket, 10) < 0) {
         throw std::runtime_error("Failed to start listening on server socket");
     }
+
+    std::cout << "Start a server!" << std::endl;
 }
 
 void TCPServer::stop() {
@@ -41,12 +47,17 @@ void TCPServer::stop() {
 }
 
 TCPRequest TCPServer::acceptAndRead() {
+    std::cout << "Waiting for client connection..." << std::endl;
+
     // Accept a client connection
     int clientSocket = accept(serverSocket, nullptr, nullptr);
     if (clientSocket < 0) {
+        std::cerr << "Failed to accept client connection: " << strerror(errno) << std::endl;
         throw std::runtime_error("Failed to accept client connection");
     }
 
+    std::cout << "Client connection accepted" << std::endl;
+    
     // Read the request from the client
     std::string requestStr = readFromSocket(clientSocket);
     close(clientSocket);
@@ -80,6 +91,9 @@ void TCPServer::sendResponse(const TCPResponse& response) {
 }
 
 std::string TCPServer::readFromSocket(int socket) {
+
+    std::cout << "Start to read from socket." << std::endl;
+
     std::stringstream ss;
     char buffer[1024];
     ssize_t bytesRead;
@@ -91,6 +105,10 @@ std::string TCPServer::readFromSocket(int socket) {
     if (bytesRead < 0) {
         throw std::runtime_error("Error reading from socket");
     }
+
+    std::cout << "End to read from socket." << std::endl;
+
+    std::cout << "Read this content: " << ss.str() << std::endl;
 
     return ss.str();
 }

@@ -1,3 +1,6 @@
+#include <fstream>
+#include <filesystem>
+
 #include "coordinator/coordinator.h"
 #include "account/account_server.h"
 #include "email/smtp_server.h"
@@ -5,8 +8,22 @@
 #include "storage_service/storage_server.h"
 #include "admin/admin_server.h"
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 int main() {
+    // 获取当前时间戳
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+    std::string logFileName = "log_" + std::to_string(now_c) + ".txt";
+
+    // 创建日志文件
+    std::filesystem::path logFilePath = std::filesystem::current_path() / logFileName;
+    std::ofstream logFile(logFilePath, std::ios::out | std::ios::trunc);
+
+    // 重定向 std::cout 到日志文件
+    std::streambuf* originalBuffer = std::cout.rdbuf(logFile.rdbuf());
+
     try {
         // Coordinator settings
         int coordinatorPort = 8000;
@@ -28,6 +45,9 @@ int main() {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
+
+    // 还原 std::cout 的缓冲区
+    std::cout.rdbuf(originalBuffer);
 
     return 0;
 }

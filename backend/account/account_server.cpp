@@ -17,6 +17,12 @@ void AccountServer::run() {
 }
 
 TCPResponse AccountServer::processRequest(const TCPRequest& request) {
+
+    std::cout << "Received request: method=" << request.method << ", args=" << std::endl;
+    for (const auto& arg : request.args) {
+        std::cout << "  - " << arg << std::endl;
+    }
+
     TCPResponse response;
     response.success = true;
 
@@ -49,6 +55,8 @@ TCPResponse AccountServer::processRequest(const TCPRequest& request) {
         response.result = "UNKNOWN_REQUEST_METHOD";
     }
 
+    std::cout << "Sending response: success=" << response.success << ", result=" << response.result << std::endl;
+    
     return response;
 }
 
