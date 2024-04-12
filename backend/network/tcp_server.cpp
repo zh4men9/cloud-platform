@@ -7,12 +7,23 @@
 #include <iostream>
 #include <cstring>
 #include <sstream>
+#include <system_error>
+#include <cerrno>
 
 TCPServer::TCPServer(int port)
     : port(port), serverSocket(-1) {
 }
 
+TCPServer::~TCPServer() {
+    if (serverSocket != -1) {
+        close(serverSocket);
+    }
+}
+
 void TCPServer::start() {
+    int optval = 1;
+    setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+    
     // Create the server socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0) {
@@ -50,10 +61,14 @@ TCPRequest TCPServer::acceptAndRead() {
     std::cout << "Waiting for client connection..." << std::endl;
 
     // Accept a client connection
-    int clientSocket = accept(serverSocket, nullptr, nullptr);
+    int clientSocket;
+    {
+        std::lock_guard<std::mutex> lock(socketMutex);
+        clientSocket = accept(serverSocket, nullptr, nullptr);
+    }
     if (clientSocket < 0) {
-        std::cerr << "Failed to accept client connection: " << strerror(errno) << std::endl;
-        throw std::runtime_error("Failed to accept client connection");
+        std::cerr << "Failed to accept client connection: " << std::strerror(errno) << std::endl;
+        throw std::system_error(errno, std::system_category(), "Failed to accept client connection");
     }
 
     std::cout << "Client connection accepted" << std::endl;
@@ -91,23 +106,37 @@ void TCPServer::sendResponse(const TCPResponse& response) {
 }
 
 std::string TCPServer::readFromSocket(int socket) {
-
     std::cout << "Start to read from socket." << std::endl;
 
     std::stringstream ss;
-    char buffer[1024];
+    char buffer[4096];  // 假设 4096 足够大
     ssize_t bytesRead;
+    size_t totalBytesRead = 0;
 
-    while ((bytesRead = read(socket, buffer, sizeof(buffer))) > 0) {
-        ss.write(buffer, bytesRead);
+    int read_cnt = 3;
+
+    while (read_cnt) {
+        std::cout << "Calling read(), waiting for data..." << std::endl;
+        bytesRead = read(socket, buffer, sizeof(buffer));
+        std::cout << "Read " << bytesRead << " bytes from socket" << std::endl;
+        if (bytesRead > 0) {
+            ss.write(buffer, bytesRead);
+            totalBytesRead += bytesRead;
+        } else if (bytesRead == 0) {
+            std::cout << "Client closed the connection" << std::endl;
+            break; // 客户端关闭了连接
+        } else if (bytesRead < 0 && errno == EAGAIN) {
+            // 非阻塞模式下,read()返回-1且errno为EAGAIN,表示暂时没有更多数据可读
+            std::cout << "No more data to read, waiting 10ms..." << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        } else {
+            // 其他错误情况
+            std::cout << "Error reading from socket, errno: " << errno << std::endl;
+            throw std::system_error(errno, std::system_category(), "Error reading from socket");
+        }
     }
 
-    if (bytesRead < 0) {
-        throw std::runtime_error("Error reading from socket");
-    }
-
-    std::cout << "End to read from socket." << std::endl;
-
+    std::cout << "End to read from socket. Total bytes read: " << totalBytesRead << std::endl;
     std::cout << "Read this content: " << ss.str() << std::endl;
 
     return ss.str();
@@ -120,7 +149,7 @@ void TCPServer::writeToSocket(int socket, const std::string& data) {
     while (remaining > 0) {
         ssize_t bytesSent = write(socket, ptr, remaining);
         if (bytesSent < 0) {
-            throw std::runtime_error("Error writing to socket");
+            throw std::system_error(errno, std::system_category(), "Error writing to socket");
         }
         ptr += bytesSent;
         remaining -= bytesSent;

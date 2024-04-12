@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(server)
+project(server_cloud_platform)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -36,10 +36,10 @@ set(SOURCE_FILES
 )
 
 # Add the executable
-add_executable(server ${SOURCE_FILES})
+add_executable(server_cloud_platform ${SOURCE_FILES})
 
 # Link against necessary libraries
-target_link_libraries(server
+target_link_libraries(server_cloud_platform
     pthread
     rt
 )

@@ -3,14 +3,19 @@
 
 #include "../common/types.h"
 #include <string>
+#include <mutex>
+#include <thread>
 
 class TCPServer {
 public:
     TCPServer(int port);
+    ~TCPServer();
+
     void start();
     void stop();
     TCPRequest acceptAndRead();
     void sendResponse(const TCPResponse& response);
+    int getPort() const { return port; }
 
 private:
     std::string readFromSocket(int socket);
@@ -18,6 +23,7 @@ private:
 
     int port;
     int serverSocket;
+    std::mutex socketMutex;
 };
 
 TCPRequest parseRequest(const std::string& requestStr);

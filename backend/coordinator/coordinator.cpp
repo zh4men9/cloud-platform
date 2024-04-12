@@ -17,30 +17,34 @@ Coordinator::Coordinator(int port, const std::string& storageHost, int storagePo
     server.start();
 }
 
-void Coordinator::run()
-{
-    while (true)
-    {
-        try {
-            std::cout << "Start in run()" << std::endl;
+void Coordinator::run() {
+    std::cout << "Coordinator started, listening on port " << server.getPort() << std::endl;
 
-            // Accept client connection and read the request
-            TCPRequest request = server.acceptAndRead();
-            std::cout << "acceptAndRead success!" << std::endl;
-            
-            std::cout << "The request: " << request.method << std::endl;
+    std::vector<std::thread> workerThreads;
+    for (int i = 0; i < 4; ++i) {
+        workerThreads.emplace_back([this]() {
+            while (true) {
+                try {
+                    std::cout << "Worker thread " << std::this_thread::get_id() << " waiting for request..." << std::endl;
+                    TCPRequest request = server.acceptAndRead();
+                    std::cout << "Worker thread " << std::this_thread::get_id() << " received request: method=" << request.method << ", args=" << std::endl;
+                    for (const auto& arg : request.args) {
+                        std::cout << "  - " << arg << std::endl;
+                    }
 
-            // Process the request
-            TCPResponse response = processRequest(request);
-            std::cout << "processRequest success!" << std::endl;
-            std::cout << "The response: " << response.result << std::endl;
-            
-            // Send the response
-            server.sendResponse(response);
-            std::cout << "sendResponse success!" << std::endl;
-        } catch (const std::exception& e) {
-            std::cerr << "Error in Coordinator::run(): " << e.what() << std::endl;
-        }
+                    TCPResponse response = processRequest(request);
+
+                    std::cout << "Worker thread " << std::this_thread::get_id() << " sending response: success=" << response.success << ", result=" << response.result << std::endl;
+                    server.sendResponse(response);
+                } catch (const std::exception& e) {
+                    std::cerr << "Error in worker thread " << std::this_thread::get_id() << ": " << e.what() << std::endl;
+                }
+            }
+        });
+    }
+
+    for (auto& thread : workerThreads) {
+        thread.join();
     }
 }
 

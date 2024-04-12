@@ -1,0 +1,2 @@
+sh BUILD.SH
+sh START.SH
