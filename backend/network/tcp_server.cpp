@@ -158,19 +158,29 @@ void TCPServer::writeToSocket(int socket, const std::string& data) {
 }
 
 TCPRequest parseRequest(const std::string& requestStr) {
-    std::istringstream iss(requestStr);
-    std::string line;
-    std::getline(iss, line);
+    std::cout << "In parseRequest" << std::endl;
     
     TCPRequest request;
-    request.method = line;
-    
+    std::istringstream iss(requestStr);
+    std::string line;
+
     while (std::getline(iss, line)) {
         if (!line.empty()) {
-            request.args.push_back(line);
+            size_t pos = line.find_first_of(':');
+            if (pos != std::string::npos) {
+                std::string key = line.substr(0, pos);
+                std::string value = line.substr(pos + 1);
+                if (key == "method") {
+                    request.method = value;
+                } else {
+                    request.args.emplace_back(value);
+                }
+            }
         }
     }
-    
+
+    std::cout << "End parseRequest" << std::endl;
+
     return request;
 }
 

@@ -60,6 +60,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
     response.success = true;
 
     if (request.method == "GET_ACCOUNT") {
+        std::cout << "In GET_ACCOUNT" << std::endl;
         if (request.args.size() == 1) {
             std::string username = request.args[0];
             User user = accountServer->getUser(username);
@@ -69,6 +70,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_GET_ACCOUNT_REQUEST";
         }
     } else if (request.method == "CREATE_ACCOUNT") {
+        std::cout << "In CREATE_ACCOUNT" << std::endl;
         if (request.args.size() == 3) {
             std::string username = request.args[0];
             std::string password = request.args[1];
@@ -84,6 +86,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_CREATE_ACCOUNT_REQUEST";
         }
     } else if (request.method == "SEND_EMAIL") {
+        std::cout << "In SEND_EMAIL" << std::endl;
         if (request.args.size() == 4) {
             Email email = {
                 .from = request.args[0],
@@ -102,6 +105,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_SEND_EMAIL_REQUEST";
         }
     } else if (request.method == "GET_FILE") {
+        std::cout << "In GET_FILE" << std::endl;
         if (request.args.size() == 1) {
             std::string fileName = request.args[0];
             File file = storageServer->getFile(fileName);
@@ -111,6 +115,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_GET_FILE_REQUEST";
         }
     } else if (request.method == "STORE_FILE") {
+        std::cout << "In STORE_FILE" << std::endl;
         if (request.args.size() == 2) {
             std::string fileName = request.args[0];
             std::string fileData = request.args[1];
@@ -126,6 +131,7 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_STORE_FILE_REQUEST";
         }
     } else if (request.method == "DELETE_FILE") {
+        std::cout << "In DELETE_FILE" << std::endl;
         if (request.args.size() == 1) {
             std::string fileName = request.args[0];
             if (storageServer->deleteFile(fileName)) {
@@ -139,9 +145,11 @@ TCPResponse Coordinator::processRequest(const TCPRequest& request) {
             response.result = "INVALID_DELETE_FILE_REQUEST";
         }
     } else if (request.method == "GET_SYSTEM_STATUS") {
+        std::cout << "In GET_SYSTEM_STATUS" << std::endl;
         std::string status = adminServer->getSystemStatus();
         response.result = status;
     } else if (request.method == "CONTROL_SYSTEM") {
+        std::cout << "In CONTROL_SYSTEM" << std::endl;
         if (request.args.size() == 1) {
             std::string command = request.args[0];
             adminServer->controlSystem(command);
